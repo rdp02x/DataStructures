@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_SIZE 100
+
+typedef struct {
+    char data[MAX_SIZE];
+    int top;
+} Stack;
+
+void initialize(Stack *stack) {
+    stack->top = -1;
+}
+
+void push(Stack *stack, char value) {
+    if (stack->top < MAX_SIZE - 1) {
+        stack->data[++stack->top] = value;
+    }
+}
+
+char pop(Stack *stack) {
+    if (stack->top >= 0) {
+        return stack->data[stack->top--];
+    }
+    return '\0';
+}
+
+int precedence(char operator) {
+    switch (operator) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        case '^':
+            return 3;
+    }
+    return 0;
+}
+
+void infixToPostfix(const char *infix, char *postfix) {
+    Stack operatorStack;
+    initialize(&operatorStack);
+    
+    int i, j = 0;
+    for (i = 0; infix[i] != '\0'; i++) {
+        if (infix[i] >= '0' && infix[i] <= '9') {
+            postfix[j++] = infix[i];
+        } else if (infix[i] == '(') {
+            push(&operatorStack, '(');
+        } else if (infix[i] == ')') {
+            while (operatorStack.top >= 0 && operatorStack.data[operatorStack.top] != '(') {
+                postfix[j++] = pop(&operatorStack);
+            }
+            pop(&operatorStack); // Pop '('
+        } else {
+            while (operatorStack.top >= 0 && precedence(operatorStack.data[operatorStack.top]) >= precedence(infix[i])) {
+                postfix[j++] = pop(&operatorStack);
+            }
+            push(&operatorStack, infix[i]);
+        }
+    }
+    
+    while (operatorStack.top >= 0) {
+        postfix[j++] = pop(&operatorStack);
+    }
+    
+    postfix[j] = '\0';
+}
+
+int main() {
+    char infix[MAX_SIZE];
+    char postfix[MAX_SIZE];
+    
+    printf("Enter an infix expression: ");
+    scanf("%s", infix);
+    
+    infixToPostfix(infix, postfix);
+    
+    printf("Postfix expression: %s\n", postfix);
+    
+    return 0;
+}

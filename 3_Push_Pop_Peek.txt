@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX_SIZE 100
+
+int stack[MAX_SIZE];
+int top = -1;
+
+// Function to push an element onto the stack
+void push(int value) {
+    stack[++top] = value;
+    printf("Pushed %d onto the stack.\n", value);
+}
+
+// Function to pop an element from the stack
+int pop() {
+    return stack[top--];
+}
+
+// Function to peep (view) the top element of the stack
+int peep() {
+    
+    return stack[top];
+}
+
+// Function to change (modify) the top element of the stack
+void change(int newValue) {
+
+    stack[top] = newValue;
+    printf("Changed top element to %d.\n", newValue);
+}
+
+int main() {
+    push(10);
+    push(20);
+    push(30);
+    
+    printf("Top element: %d\n", peep());
+    
+    change(25);
+    
+    printf("Popped element: %d\n", pop());
+    printf("Popped element: %d\n", pop());
+    
+    printf("Top element: %d\n", peep());
+    
+    return 0;
+}

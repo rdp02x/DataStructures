@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+// Structure to represent a stack
+struct Stack {
+    int top;
+    int capacity;
+    int *array;
+};
+
+// Create a new stack
+struct Stack* createStack(int capacity) {
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (int*)malloc(stack->capacity * sizeof(int));
+    return stack;
+}
+
+// Push an element onto the stack
+void push(struct Stack* stack, int value) {
+    if (stack->top == stack->capacity - 1) {
+        printf("Stack Overflow\n");
+        return;
+    }
+    stack->array[++stack->top] = value;
+}
+
+// Pop an element from the stack
+int pop(struct Stack* stack) {
+    if (stack->top == -1) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    return stack->array[stack->top--];
+}
+
+// Evaluate a postfix expression
+int evaluatePostfix(char* expression) {
+    struct Stack* stack = createStack(strlen(expression));
+    
+    for (int i = 0; expression[i]; i++) {
+        if (isdigit(expression[i])) {
+            push(stack, expression[i] - '0');
+        } else {
+            int operand2 = pop(stack);
+            int operand1 = pop(stack);
+            switch (expression[i]) {
+                case '+': push(stack, operand1 + operand2); break;
+                case '-': push(stack, operand1 - operand2); break;
+                case '*': push(stack, operand1 * operand2); break;
+                case '/': push(stack, operand1 / operand2); break;
+            }
+        }
+    }
+    
+    int result = pop(stack);
+    free(stack->array);
+    free(stack);
+    return result;
+}
+
+int main() {
+    char expression[] = "82+3*";
+    int result = evaluatePostfix(expression);
+    printf("Result: %d\n", result);
+    return 0;
+}

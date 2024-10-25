@@ -1,0 +1,190 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure of a singly linked list node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert an element at the beginning of the linked list
+void insertAtFirst(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    newNode->next = *head;
+    *head = newNode;
+}
+
+// Function to insert an element at the end of the linked list
+void insertAtLast(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+    struct Node* current = *head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = newNode;
+}
+
+// Function to insert an element in sorted order
+void insertInSorted(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    if (*head == NULL || (*head)->data >= value) {
+        newNode->next = *head;
+        *head = newNode;
+        return;
+    }
+    struct Node* current = *head;
+    while (current->next != NULL && current->next->data < value) {
+        current = current->next;
+    }
+    newNode->next = current->next;
+    current->next = newNode;
+}
+
+// Function to delete an element from the linked list
+void deleteElement(struct Node** head, int value) {
+    if (*head == NULL)
+        return;
+    if ((*head)->data == value) {
+        struct Node* temp = *head;
+        *head = (*head)->next;
+        free(temp);
+        return;
+    }
+    struct Node* current = *head;
+    while (current->next != NULL && current->next->data != value) {
+        current = current->next;
+    }
+    if (current->next != NULL) {
+        struct Node* temp = current->next;
+        current->next = temp->next;
+        free(temp);
+    }
+}
+
+// Function to copy a linked list
+struct Node* copyLinkedList(struct Node* head) {
+    struct Node* newHead = NULL;
+    struct Node* current = head;
+    struct Node* tail = NULL;
+    while (current != NULL) {
+        struct Node* newNode = createNode(current->data);
+        if (newHead == NULL) {
+            newHead = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+        current = current->next;
+    }
+    return newHead;
+}
+
+// Function to find the sum of elements in the linked list
+int sumOfElements(struct Node* head) {
+    int sum = 0;
+    struct Node* current = head;
+    while (current != NULL) {
+        sum += current->data;
+        current = current->next;
+    }
+    return sum;
+}
+
+// Function to count the number of nodes in the linked list
+int countNodes(struct Node* head) {
+    int count = 0;
+    struct Node* current = head;
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+    return count;
+}
+
+// Function to search for an element in the linked list
+int searchElement(struct Node* head, int value) {
+    struct Node* current = head;
+    int index = 0;
+    while (current != NULL) {
+        if (current->data == value) {
+            return index;
+        }
+        index++;
+        current = current->next;
+    }
+    return -1; // Element not found
+}
+
+// Function to display the linked list
+void displayLinkedList(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    // Create Linked List
+    insertAtLast(&head, 10);
+    insertAtLast(&head, 20);
+    insertAtLast(&head, 30);
+
+    printf("Original Linked List: ");
+    displayLinkedList(head);
+
+    // Insert at first
+    insertAtFirst(&head, 5);
+    printf("After inserting 5 at the beginning: ");
+    displayLinkedList(head);
+
+    // Insert in sorted order
+    insertInSorted(&head, 25);
+    printf("After inserting 25 in sorted order: ");
+    displayLinkedList(head);
+
+    // Delete element
+    deleteElement(&head, 20);
+    printf("After deleting 20: ");
+    displayLinkedList(head);
+
+    // Copy Linked List
+    struct Node* copiedList = copyLinkedList(head);
+    printf("Copied Linked List: ");
+    displayLinkedList(copiedList);
+
+    // Sum of elements
+    int sum = sumOfElements(head);
+    printf("Sum of elements: %d\n", sum);
+
+    // Count number of nodes
+    int nodeCount = countNodes(head);
+    printf("Number of nodes: %d\n", nodeCount);
+
+    // Search element
+    int searchValue = 30;
+    int searchResult = searchElement(head, searchValue);
+    if (searchResult != -1) {
+        printf("%d found at index %d\n", searchValue, searchResult);
+    } else {
+        printf("%d not found in the list\n", searchValue);
+    }
+
+    return 0;
+}
