@@ -1,50 +1,68 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 // Function to swap two elements
 void swap(int* a, int* b) {
-int temp = *a;
-*a = *b;
-*b = temp;
+    int temp = *a; // Store the value of a in a temporary variable
+    *a = *b;       // Assign the value of b to a
+    *b = temp;    // Assign the value of temp (original a) to b
 }
+
 // Function to perform selection sort
 void selectionSort(int arr[], int n) {
-int i, j, min_idx;
-for (i = 0; i < n - 1; i++) {
-min_idx = i;
-for (j = i + 1; j < n; j++) {
-if (arr[j] < arr[min_idx]) {
-min_idx = j;
+    int i, j, min_idx; // Declare loop variables and index for minimum
+    // Outer loop to iterate over each element except the last
+    for (i = 0; i < n - 1; i++) {
+        min_idx = i; // Assume the current index is the minimum
+        // Inner loop to find the index of the minimum element
+        for (j = i + 1; j < n; j++) {
+            // If a smaller element is found, update min_idx
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j; // Update the index of the minimum element
+            }
+        }
+        // Swap the found minimum element with the first element of the unsorted part
+        swap(&arr[min_idx], &arr[i]);
+    }
 }
-}
-swap(&arr[min_idx], &arr[i]);
-}
-}
+
 // Function to print the array
 void printArray(int arr[], int n) {
-int i;
-for (i = 0; i < n; i++) {
-printf("%d ", arr[i]);
+    int i; // Declare loop variable
+    // Loop through each element in the array
+    for (i = 0; i < n; i++) {
+        printf("%d ", arr[i]); // Print the current element
+    }
+    printf("\n"); // Print a newline after the array
 }
-printf("\n");
-}
+
 int main() {
-int n;
-printf("Enter the number of elements: ");
-scanf("%d", &n);
-int* arr = (int*)malloc(n * sizeof(int));
-if (arr == NULL) {
-printf("Memory allocation failed\n");
-return 1;
-}
-printf("Enter the elements:\n");
-for (int i = 0; i < n; i++) {
-scanf("%d", &arr[i]);
-}
-printf("Original array: ");
-printArray(arr, n);
-selectionSort(arr, n);
-printf("Sorted array: ");
-printArray(arr, n);
-free(arr);
-return 0;
+    int n; // Variable to store the number of elements
+    printf("Enter the number of elements: ");
+    scanf("%d", &n); // Read the number of elements from the user
+
+    // Allocate memory for the array dynamically
+    int* arr = (int*)malloc(n * sizeof(int));
+    // Check if memory allocation was successful
+    if (arr == NULL) {
+        printf("Memory allocation failed\n");
+        return 1; // Exit with an error code
+    }
+
+    printf("Enter the elements:\n");
+    // Loop to read the elements into the array
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]); // Read each element
+    }
+
+    printf("Original array: ");
+    printArray(arr, n); // Print the original array
+
+    selectionSort(arr, n); // Call selection sort on the array
+
+    printf("Sorted array: ");
+    printArray(arr, n); // Print the sorted array
+
+    free(arr); // Free the allocated memory
+    return 0; // Return 0 to indicate successful execution
 }
