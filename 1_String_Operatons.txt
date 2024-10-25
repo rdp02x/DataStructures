@@ -2,28 +2,28 @@
 #include <string.h>
 
 int main() {
-    char str1[100], str2[100];
+    char str1[100], str2[100];        // Declare two character arrays to store strings
     
     // Input strings
     printf("Enter the first string: ");
-    gets(str1);
+    gets(str1);                       // Get the first string from the user
     printf("Enter the second string: ");
-    gets(str2);
+    gets(str2);                       // Get the second string from the user
     
     // Find length of given strings
-    int len1 = strlen(str1);
-    int len2 = strlen(str2);
+    int len1 = strlen(str1);          // Find the length of the first string
+    int len2 = strlen(str2);          // Find the length of the second string
     printf("Length of the first string: %d\n", len1);
     printf("Length of the second string: %d\n", len2);
     
     // Copy strings
-    strcpy(str1, str2);
+    strcpy(str1, str2);               // Copy the content of str2 into str1
     printf("Copied string: %s\n", str1);
     
     // Compare strings
-    int compareResult = strcmp(str1, str2);
+    int compareResult = strcmp(str1, str2);   // Compare str1 and str2
     if (compareResult == 0) {
-        printf("Strings are equal.\n");
+        printf("Strings are equal.\n");       // If equal, output that strings are equal
     } else if (compareResult < 0) {
         printf("First string is lexicographically smaller than the second string.\n");
     } else {
@@ -31,7 +31,7 @@ int main() {
     }
     
     // Concatenate strings
-    strcat(str1, str2);
+    strcat(str1, str2);               // Concatenate str2 to the end of str1
     printf("Concatenated string: %s\n", str1);
     
     return 0;
