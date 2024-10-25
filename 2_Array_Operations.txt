@@ -2,23 +2,23 @@
 
 // Function to search for an element in the array
 int searchElement(int arr[], int size, int target) {
-    for (int i = 0; i < size; i++) {
-        if (arr[i] == target) {
-            return i; // Element found at index i
+    for (int i = 0; i < size; i++) { // Iterate through the array
+        if (arr[i] == target) {       // Check if the current element matches the target
+            return i;                 // Element found at index i
         }
     }
-    return -1; // Element not found
+    return -1;                       // Return -1 if the element is not found
 }
 
 // Function to perform bubble sort on the array
 void sortArray(int arr[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
+    for (int i = 0; i < size - 1; i++) {  // Iterate through the array
+        for (int j = 0; j < size - i - 1; j++) {  // Compare adjacent elements
+            if (arr[j] > arr[j + 1]) {  // If the current element is greater than the next
                 // Swap elements
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+                int temp = arr[j];      // Store current element in temp
+                arr[j] = arr[j + 1];    // Move next element to current position
+                arr[j + 1] = temp;      // Assign temp (original current) to next position
             }
         }
     }
@@ -26,84 +26,92 @@ void sortArray(int arr[], int size) {
 
 // Function to reverse the elements in the array
 void reverseArray(int arr[], int size) {
-    for (int i = 0; i < size / 2; i++) {
+    for (int i = 0; i < size / 2; i++) { // Iterate only through the first half
         // Swap elements from the beginning and end of the array
-        int temp = arr[i];
-        arr[i] = arr[size - i - 1];
-        arr[size - i - 1] = temp;
+        int temp = arr[i];                // Store the current element in temp
+        arr[i] = arr[size - i - 1];      // Assign the opposite end element to the current position
+        arr[size - i - 1] = temp;        // Assign temp (original current) to the opposite end position
     }
 }
 
 // Function to calculate the sum of elements in the array
 int sumArray(int arr[], int size) {
-    int sum = 0;
-    for (int i = 0; i < size; i++) {
-        sum += arr[i];
+    int sum = 0;                          // Initialize sum to zero
+    for (int i = 0; i < size; i++) {     // Iterate through the array
+        sum += arr[i];                   // Add each element to sum
     }
-    return sum;
+    return sum;                           // Return the total sum
 }
 
 // Function to find the largest element in the array
 int findLargest(int arr[], int size) {
-    int largest = arr[0];
-    for (int i = 1; i < size; i++) {
-        if (arr[i] > largest) {
-            largest = arr[i];
+    int largest = arr[0];                // Assume first element is the largest
+    for (int i = 1; i < size; i++) {     // Iterate through the array starting from the second element
+        if (arr[i] > largest) {           // If current element is larger than largest
+            largest = arr[i];             // Update largest
         }
     }
-    return largest;
+    return largest;                       // Return the largest element
 }
 
 // Function to find the smallest element in the array
 int findSmallest(int arr[], int size) {
-    int smallest = arr[0];
-    for (int i = 1; i < size; i++) {
-        if (arr[i] < smallest) {
-            smallest = arr[i];
+    int smallest = arr[0];               // Assume first element is the smallest
+    for (int i = 1; i < size; i++) {     // Iterate through the array starting from the second element
+        if (arr[i] < smallest) {          // If current element is smaller than smallest
+            smallest = arr[i];            // Update smallest
         }
     }
-    return smallest;
+    return smallest;                      // Return the smallest element
 }
 
 int main() {
+    // Initialize an array with some elements
     int arr[] = { 23, 45, 12, 6, 67, 9, 21 };
-    int size = sizeof(arr) / sizeof(arr[0]);
+    int size = sizeof(arr) / sizeof(arr[0]); // Calculate the number of elements in the array
 
+    // Print the original array
     printf("Original Array: ");
     for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+        printf("%d ", arr[i]);             // Print each element
     }
     printf("\n");
 
-    int searchElementIndex = searchElement(arr, size, 67);
+    // Search for a specific element in the array
+    int searchElementIndex = searchElement(arr, size, 67); // Search for element 67
     if (searchElementIndex != -1) {
-        printf("Element 67 found at index %d\n", searchElementIndex);
+        printf("Element 67 found at index %d\n", searchElementIndex); // Print the index if found
     } else {
-        printf("Element 67 not found in the array\n");
+        printf("Element 67 not found in the array\n"); // Print message if not found
     }
 
+    // Sort the array using bubble sort
     sortArray(arr, size);
     printf("Sorted Array: ");
     for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+        printf("%d ", arr[i]);             // Print each element of the sorted array
     }
     printf("\n");
 
+    // Reverse the array
     reverseArray(arr, size);
     printf("Reversed Array: ");
     for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+        printf("%d ", arr[i]);             // Print each element of the reversed array
     }
     printf("\n");
 
+    // Calculate and print the sum of elements
     int sum = sumArray(arr, size);
-    printf("Sum of elements: %d\n", sum);
+    printf("Sum of elements: %d\n", sum); // Print the sum
 
+    // Find and print the largest element
     int largest = findLargest(arr, size);
-    printf("Largest element: %d\n", largest);
+    printf("Largest element: %d\n", largest); // Print the largest element
 
+    // Find and print the smallest element
     int smallest = findSmallest(arr, size);
-    printf("Smallest element: %d\n", smallest);
+    printf("Smallest element: %d\n", smallest); // Print the smallest element
 
-    return 0;
+    return 0; // Exit the program
 }
