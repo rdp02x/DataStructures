@@ -1,43 +1,64 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 // Function to perform shell sort
 void shellSort(int arr[], int n) {
-for (int gap = n / 2; gap > 0; gap /= 2) {
-for (int i = gap; i < n; i++) {
-int temp = arr[i];
-int j;
-for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-arr[j] = arr[j - gap];
+    // Start with a large gap, then reduce the gap
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        // Perform a gapped insertion sort for each gap size
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i];           // Store the current element
+            int j;
+
+            // Shift elements of arr[0..i-gap] that are greater than temp
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                arr[j] = arr[j - gap];   // Move element by gap distance
+            }
+            arr[j] = temp;               // Place temp in its correct position
+        }
+    }
 }
-arr[j] = temp;
-}
-}
-}
+
 // Function to print the array
 void printArray(int arr[], int n) {
-for (int i = 0; i < n; i++) {
-printf("%d ", arr[i]);
+    for (int i = 0; i < n; i++) {        // Loop through each element
+        printf("%d ", arr[i]);           // Print each element followed by a space
+    }
+    printf("\n");                        // Newline at the end of the array output
 }
-printf("\n");
-}
+
 int main() {
-int n;
-printf("Enter the number of elements: ");
-scanf("%d", &n);
-int* arr = (int*)malloc(n * sizeof(int));
-if (arr == NULL) {
-printf("Memory allocation failed\n");
-return 1;
-}
-printf("Enter the elements:\n");
-for (int i = 0; i < n; i++) {
-scanf("%d", &arr[i]);
-}
-printf("Original array: ");
-printArray(arr, n);
-shellSort(arr, n);
-printf("Sorted array: ");
-printArray(arr, n);
-free(arr);
-return 0;
+    int n;
+
+    // Prompt user to enter the number of elements in the array
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    // Allocate memory dynamically for the array based on user input
+    int* arr = (int*)malloc(n * sizeof(int));
+    if (arr == NULL) {                   // Check if memory allocation was successful
+        printf("Memory allocation failed\n");
+        return 1;                        // Exit if allocation fails
+    }
+
+    // Prompt user to input each element
+    printf("Enter the elements:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Print the original array before sorting
+    printf("Original array: ");
+    printArray(arr, n);
+
+    // Sort the array using shell sort
+    shellSort(arr, n);
+
+    // Print the sorted array
+    printf("Sorted array: ");
+    printArray(arr, n);
+
+    // Free dynamically allocated memory
+    free(arr);
+    return 0;
 }
