@@ -1,48 +1,68 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 // Function to swap two elements
 void swap(int* a, int* b) {
-int temp = *a;
-*a = *b;
-*b = temp;
+    int temp = *a;  // Temporary storage to hold the value of *a
+    *a = *b;        // Assign *b's value to *a
+    *b = temp;      // Assign the stored value of *a to *b
 }
+
 // Function to perform bubble sort
 void bubbleSort(int arr[], int n) {
-int i, j;
-for (i = 0; i < n - 1; i++) {
-for (j = 0; j < n - i - 1; j++) {
-if (arr[j] > arr[j + 1]) {
-swap(&arr[j], &arr[j + 1]);
+    int i, j;
+    // Outer loop iterates over each element in the array
+    for (i = 0; i < n - 1; i++) {
+        // Inner loop performs the swapping if elements are out of order
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {  // Compare adjacent elements
+                swap(&arr[j], &arr[j + 1]);  // Swap if the current element is greater than the next
+            }
+        }
+    }
 }
-}
-}
-}
+
 // Function to print the array
 void printArray(int arr[], int n) {
-int i;
-for (i = 0; i < n; i++) {
-printf("%d ", arr[i]);
+    int i;
+    for (i = 0; i < n; i++) {
+        printf("%d ", arr[i]);  // Print each element followed by a space
+    }
+    printf("\n");  // Newline at the end of the array output
 }
-printf("\n");
-}
+
 int main() {
-int n;
-printf("Enter the number of elements: ");
-scanf("%d", &n);
-int* arr = (int*)malloc(n * sizeof(int));
-if (arr == NULL) {
-printf("Memory allocation failed\n");
-return 1;
-}
-printf("Enter the elements:\n");
-for (int i = 0; i < n; i++) {
-scanf("%d", &arr[i]);
-}
-printf("Original array: ");
-printArray(arr, n);
-bubbleSort(arr, n);
-printf("Sorted array: ");
-printArray(arr, n);
-free(arr);
-return 0;
+    int n;
+
+    // Prompt user to enter the number of elements in the array
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    // Dynamically allocate memory for the array
+    int* arr = (int*)malloc(n * sizeof(int));
+    if (arr == NULL) {  // Check if memory allocation was successful
+        printf("Memory allocation failed\n");
+        return 1;       // Exit if memory allocation fails
+    }
+
+    // Prompt user to enter the elements of the array
+    printf("Enter the elements:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Print the original array
+    printf("Original array: ");
+    printArray(arr, n);
+
+    // Sort the array using bubble sort
+    bubbleSort(arr, n);
+
+    // Print the sorted array
+    printf("Sorted array: ");
+    printArray(arr, n);
+
+    // Free dynamically allocated memory
+    free(arr);
+    return 0;
 }
